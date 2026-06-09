@@ -1,0 +1,631 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Buy & Sell Crypto</title>
+
+    <!-- Google Fonts - Roboto -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom Tailwind Config -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              "lgns-red": "#DC2626",
+              "lgns-red-dark": "#991B1B",
+              "lgns-red-light": "#EF4444",
+            },
+            fontFamily: {
+              roboto: ['"Roboto"', "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- Custom Styles -->
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+        overflow: hidden;
+        font-family: "Roboto", sans-serif;
+        font-optical-sizing: auto;
+        font-variation-settings: "wdth" 100;
+      }
+
+      body {
+        background: linear-gradient(
+          135deg,
+          #dc2626 0%,
+          #991b1b 50%,
+          #7f1d1d 100%
+        );
+        min-height: 100vh;
+        min-height: -webkit-fill-available;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        left: 0;
+      }
+
+      /* Background pattern overlay */
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background:
+          radial-gradient(
+            circle at 20% 50%,
+            rgba(239, 68, 68, 0.2) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 20%,
+            rgba(220, 38, 38, 0.3) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 50% 80%,
+            rgba(153, 27, 27, 0.2) 0%,
+            transparent 50%
+          );
+        pointer-events: none;
+      }
+
+      /* Remove number input arrows */
+      input[type="number"] {
+        -moz-appearance: textfield;
+      }
+
+      input[type="number"]::-webkit-outer-spin-button,
+      input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      /* Switch button animation */
+      .switch-btn {
+        transition: transform 0.3s ease;
+      }
+
+      .switch-btn:hover {
+        transform: rotate(180deg);
+      }
+
+      /* Glass morphism effect */
+      .glass-card {
+        background: rgba(0, 0, 0, 0.15);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      /* Custom focus styles */
+      input:focus {
+        outline: none;
+      }
+
+      /* Prevent pull-to-refresh and overscroll on mobile */
+      .no-overscroll {
+        overscroll-behavior: none;
+        -webkit-overflow-scrolling: auto;
+      }
+
+      /* Loading pulse animation */
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.5;
+        }
+      }
+
+      .loading-pulse {
+        animation: pulse 1.5s ease-in-out infinite;
+      }
+
+      /* Price update flash */
+      @keyframes flash {
+        0% {
+          background-color: rgba(34, 197, 94, 0.3);
+        }
+        100% {
+          background-color: transparent;
+        }
+      }
+
+      .price-up {
+        animation: flash 0.5s ease-out;
+      }
+
+      @keyframes flashRed {
+        0% {
+          background-color: rgba(239, 68, 68, 0.3);
+        }
+        100% {
+          background-color: transparent;
+        }
+      }
+
+      .price-down {
+        animation: flashRed 0.5s ease-out;
+      }
+    </style>
+  </head>
+  <body class="no-overscroll flex items-center justify-center p-4 font-roboto">
+    <!-- Main Container -->
+    <div class="w-full max-w-[440px] relative z-10">
+      <!-- Logo/Brand Area -->
+      <div class="text-center mb-8">
+        <h1 class="text-4xl font-normal text-white drop-shadow-lg mb-2">
+          Buy & Sell Crypto
+        </h1>
+
+        <!-- Deduction Notice -->
+        <div class="mt-2">
+          <span
+            class="text-red-200 text-xs bg-red-900/30 rounded-full px-3 py-1"
+          >
+            Fees Applied
+          </span>
+        </div>
+      </div>
+
+      <!-- Swap Card -->
+      <div class="glass-card rounded-2xl p-2 shadow-2xl">
+        <!-- From Token Section (Sell LGNS) -->
+        <div>
+          <div class="bg-white/5 rounded-xl px-4 pt-4 pb-7 backdrop-blur-sm">
+            <span class="text-red-100 text-lg font-normal block mb-2"
+              >Sell</span
+            >
+            <div class="flex items-center gap-2">
+              <input
+                type="number"
+                id="fromAmount"
+                placeholder="0"
+                oninput="handleFromAmountChange(this.value)"
+                class="bg-transparent text-white text-3xl outline-none flex-1 w-full placeholder:text-4xl placeholder:font-bold placeholder-red-300/50 font-roboto font-medium"
+              />
+              <div
+                class="flex items-center gap-2 bg-white/10 text-white px-3 py-2 rounded-xl shrink-0 border border-white/10"
+              >
+                <img
+                  id="fromTokenIcon"
+                  src="/lgns.webp"
+                  alt="LGNS"
+                  class="w-6 h-6 rounded-full"
+                  onerror="
+                    this.style.display = 'none';
+                    this.nextElementSibling.style.display = 'flex';
+                  "
+                />
+                <div
+                  class="w-6 h-6 rounded-full bg-gradient-to-br from-red-400 to-red-600 items-center justify-center text-white text-xs font-bold hidden"
+                >
+                  L
+                </div>
+                <span
+                  id="fromTokenSymbol"
+                  class="font-medium tracking-wider text-lg"
+                  >LGNS</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Centered Switch Button with Equal Spacing -->
+        <div class="flex justify-center my-1">
+          <button
+            onclick="switchTokens()"
+            class="switch-btn bg-red-600 border-4 border-red-800/50 rounded-xl p-2 hover:bg-red-500 transition-colors shadow-lg shadow-red-900/50"
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              class="text-white"
+            >
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <polyline points="19 12 12 19 5 12"></polyline>
+            </svg>
+          </button>
+        </div>
+
+        <!-- To Token Section (Buy USDT) -->
+        <div>
+          <div class="bg-white/5 rounded-xl p-4 backdrop-blur-sm">
+            <span class="text-red-100 text-lg font-normal block mb-2">Buy</span>
+            <div class="flex items-center gap-2">
+              <input
+                type="number"
+                id="toAmount"
+                placeholder="0"
+                readonly
+                class="bg-transparent text-white text-3xl placeholder:text-4xl placeholder:font-bold outline-none flex-1 w-full cursor-default placeholder-red-300/50 font-roboto font-bold"
+              />
+              <div
+                class="flex items-center gap-2 bg-white/10 text-white px-3 py-2 rounded-xl shrink-0 border border-white/10"
+              >
+                <img
+                  id="toTokenIcon"
+                  src="/usdt.webp"
+                  alt="USDT"
+                  class="w-6 h-6 rounded-full"
+                  onerror="
+                    this.style.display = 'none';
+                    this.nextElementSibling.style.display = 'flex';
+                  "
+                />
+                <div
+                  class="w-6 h-6 rounded-full bg-green-500 items-center justify-center text-white text-xs font-bold hidden"
+                >
+                  U
+                </div>
+                <span
+                  id="toTokenSymbol"
+                  class="font-medium tracking-wider text-lg"
+                  >USDT</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Swap Button -->
+        <button
+          id="swapButton"
+          disabled
+          class="w-full mt-4 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-400 hover:to-red-500 disabled:from-white/10 disabled:to-white/10 disabled:text-red-300/50 disabled:cursor-not-allowed text-white font-normal py-4 rounded-xl transition-all shadow-lg shadow-red-900/30 disabled:shadow-none font-roboto"
+        >
+          Enter an amount
+        </button>
+      </div>
+    </div>
+
+    <script>
+      // ==================== CONFIGURATION ====================
+      const LGNS_CONTRACT_ADDRESS =
+        "0xeb51d9a39ad5eef215dc0bf39a8821ff804a0f01";
+      const LGNS_COINGECKO_ID = "origin-lgns";
+      const DEDUCTION_PERCENTAGE = 13; // 13% deduction from market price
+
+      // ==================== TOKEN DATA ====================
+      const tokens = {
+        USDT: {
+          symbol: "USDT",
+          name: "Tether USD",
+          icon: "/usdt.webp",
+          fallbackIcon: "💲",
+          balance: "10000.0",
+          address: "0xdac17f958d2ee523a2206206994597c13d831ec7",
+          price: 1.0,
+        },
+        LGNS: {
+          symbol: "LGNS",
+          name: "LGNS Token",
+          icon: "/lgns.webp",
+          fallbackIcon: "🔴",
+          balance: "50000.0",
+          address: LGNS_CONTRACT_ADDRESS,
+          price: 0.15,
+          marketPrice: 0.15,
+          swapPrice: 0.15,
+          coingeckoId: LGNS_COINGECKO_ID,
+        },
+      };
+
+      // ==================== STATE ====================
+      let state = {
+        fromToken: "LGNS",
+        toToken: "USDT",
+        fromAmount: "",
+        toAmount: "",
+      };
+
+      let previousPrice = 0;
+      let priceUpdateInterval = null;
+
+      // ==================== HELPER FUNCTIONS ====================
+      function updateImageWithFallback(imgElement, fallbackElement, src) {
+        if (!imgElement || !fallbackElement) return;
+
+        imgElement.src = src;
+        imgElement.onerror = function () {
+          this.style.display = "none";
+          fallbackElement.style.display = "flex";
+        };
+        imgElement.onload = function () {
+          this.style.display = "block";
+          fallbackElement.style.display = "none";
+        };
+
+        // Check if image is already loaded/failed
+        if (imgElement.complete) {
+          if (imgElement.naturalWidth === 0) {
+            imgElement.style.display = "none";
+            fallbackElement.style.display = "flex";
+          } else {
+            imgElement.style.display = "block";
+            fallbackElement.style.display = "none";
+          }
+        }
+      }
+
+      // ==================== PRICE FETCHING ====================
+      async function fetchLGNSTokenPrice() {
+        try {
+          const response = await fetch(
+            `https://api.coingecko.com/api/v3/simple/price?ids=${LGNS_COINGECKO_ID}&vs_currencies=usd&include_24hr_change=true`,
+          );
+
+          if (response.ok) {
+            const data = await response.json();
+            if (data[LGNS_COINGECKO_ID]) {
+              const marketPrice = data[LGNS_COINGECKO_ID].usd;
+              const priceChange = data[LGNS_COINGECKO_ID].usd_24h_change;
+
+              const deductionMultiplier = (100 - DEDUCTION_PERCENTAGE) / 100;
+              const swapPrice = marketPrice * deductionMultiplier;
+
+              updateTokenPrice(marketPrice, swapPrice, priceChange);
+              return;
+            }
+          }
+
+          await fetchLGNSFromDexScreener();
+        } catch (error) {
+          console.error("Error fetching from CoinGecko:", error);
+          await fetchLGNSFromDexScreener();
+        }
+      }
+
+      async function fetchLGNSFromDexScreener() {
+        try {
+          const response = await fetch(
+            `https://api.dexscreener.com/latest/dex/tokens/${LGNS_CONTRACT_ADDRESS}`,
+          );
+
+          if (response.ok) {
+            const data = await response.json();
+            if (data.pairs && data.pairs.length > 0) {
+              const pair = data.pairs[0];
+              const marketPrice = parseFloat(pair.priceUsd);
+              const priceChange = pair.priceChange
+                ? parseFloat(pair.priceChange.h24)
+                : 0;
+
+              const deductionMultiplier = (100 - DEDUCTION_PERCENTAGE) / 100;
+              const swapPrice = marketPrice * deductionMultiplier;
+
+              updateTokenPrice(marketPrice, swapPrice, priceChange);
+              return;
+            }
+          }
+
+          console.warn("Using default LGNS price");
+          const defaultMarketPrice = tokens.LGNS.price;
+          const deductionMultiplier = (100 - DEDUCTION_PERCENTAGE) / 100;
+          const defaultSwapPrice = defaultMarketPrice * deductionMultiplier;
+          updateTokenPrice(defaultMarketPrice, defaultSwapPrice, 0);
+        } catch (error) {
+          console.error("Error fetching from DexScreener:", error);
+          const defaultMarketPrice = tokens.LGNS.price;
+          const deductionMultiplier = (100 - DEDUCTION_PERCENTAGE) / 100;
+          const defaultSwapPrice = defaultMarketPrice * deductionMultiplier;
+          updateTokenPrice(defaultMarketPrice, defaultSwapPrice, 0);
+        }
+      }
+
+      function updateTokenPrice(marketPrice, swapPrice, priceChange) {
+        previousPrice = tokens.LGNS.swapPrice;
+
+        tokens.LGNS.marketPrice = marketPrice;
+        tokens.LGNS.swapPrice = swapPrice;
+        tokens.LGNS.price = swapPrice;
+
+        // Update price display elements if they exist
+        const priceElement = document.getElementById("livePrice");
+        const changeElement = document.getElementById("priceChange");
+        const priceDisplay = document.getElementById("priceDisplay");
+
+        if (priceElement) {
+          priceElement.textContent = `$${marketPrice.toFixed(6)}`;
+          priceElement.classList.remove("loading-pulse");
+        }
+
+        if (
+          changeElement &&
+          priceChange !== undefined &&
+          priceChange !== null &&
+          !isNaN(priceChange)
+        ) {
+          const changeSign = priceChange >= 0 ? "+" : "";
+          changeElement.textContent = `${changeSign}${priceChange.toFixed(2)}%`;
+          changeElement.className = `text-xs font-medium ${
+            priceChange >= 0 ? "text-green-400" : "text-red-400"
+          }`;
+        }
+
+        if (priceDisplay) {
+          if (swapPrice > previousPrice && previousPrice > 0) {
+            priceDisplay.classList.add("price-up");
+            setTimeout(() => priceDisplay.classList.remove("price-up"), 500);
+          } else if (swapPrice < previousPrice && previousPrice > 0) {
+            priceDisplay.classList.add("price-down");
+            setTimeout(() => priceDisplay.classList.remove("price-down"), 500);
+          }
+        }
+
+        if (state.fromAmount) {
+          handleFromAmountChange(state.fromAmount);
+        }
+      }
+
+      // ==================== INITIALIZATION ====================
+      function initializeUI() {
+        updateTokenDisplay();
+        fetchLGNSTokenPrice();
+
+        priceUpdateInterval = setInterval(fetchLGNSTokenPrice, 30000);
+      }
+
+      function updateTokenDisplay() {
+        const fromTokenData = tokens[state.fromToken];
+        const toTokenData = tokens[state.toToken];
+
+        // Update from token icon and text
+        const fromIcon = document.getElementById("fromTokenIcon");
+        const fromFallback = fromIcon ? fromIcon.nextElementSibling : null;
+        if (fromIcon && fromFallback) {
+          updateImageWithFallback(fromIcon, fromFallback, fromTokenData.icon);
+        }
+
+        const fromSymbol = document.getElementById("fromTokenSymbol");
+        if (fromSymbol) {
+          fromSymbol.textContent = fromTokenData.symbol;
+        }
+
+        // Update to token icon and text
+        const toIcon = document.getElementById("toTokenIcon");
+        const toFallback = toIcon ? toIcon.nextElementSibling : null;
+        if (toIcon && toFallback) {
+          updateImageWithFallback(toIcon, toFallback, toTokenData.icon);
+        }
+
+        const toSymbol = document.getElementById("toTokenSymbol");
+        if (toSymbol) {
+          toSymbol.textContent = toTokenData.symbol;
+        }
+      }
+
+      // ==================== SWAP LOGIC ====================
+      function handleFromAmountChange(value) {
+        state.fromAmount = value;
+
+        if (value && !isNaN(parseFloat(value)) && parseFloat(value) > 0) {
+          const amount = parseFloat(value);
+          const fromPrice = tokens[state.fromToken].price;
+          const toPrice = tokens[state.toToken].price;
+
+          const baseRate = fromPrice / toPrice;
+          const receivedAmount = amount * baseRate;
+          state.toAmount = receivedAmount.toFixed(2);
+
+          const toAmountInput = document.getElementById("toAmount");
+          if (toAmountInput) {
+            toAmountInput.value = state.toAmount;
+          }
+
+          const swapBtn = document.getElementById("swapButton");
+          if (swapBtn) {
+            swapBtn.disabled = false;
+            swapBtn.textContent = "Swap";
+          }
+        } else {
+          state.toAmount = "";
+          const toAmountInput = document.getElementById("toAmount");
+          if (toAmountInput) {
+            toAmountInput.value = "";
+          }
+
+          const swapBtn = document.getElementById("swapButton");
+          if (swapBtn) {
+            swapBtn.disabled = true;
+            swapBtn.textContent = "Enter an amount";
+          }
+        }
+      }
+
+      function switchTokens() {
+        const tempFromToken = state.fromToken;
+        const tempFromAmount = state.fromAmount;
+        const tempToAmount = state.toAmount;
+
+        state.fromToken = state.toToken;
+        state.toToken = tempFromToken;
+
+        state.fromAmount = tempToAmount;
+        state.toAmount = tempFromAmount;
+
+        const fromAmountInput = document.getElementById("fromAmount");
+        const toAmountInput = document.getElementById("toAmount");
+
+        if (fromAmountInput) {
+          fromAmountInput.value = state.fromAmount || "";
+        }
+        if (toAmountInput) {
+          toAmountInput.value = state.toAmount || "";
+        }
+
+        updateTokenDisplay();
+
+        if (state.fromAmount) {
+          handleFromAmountChange(state.fromAmount);
+        }
+      }
+
+      // ==================== SWAP EXECUTION ====================
+      const swapButton = document.getElementById("swapButton");
+      if (swapButton) {
+        swapButton.addEventListener("click", function () {
+          if (!state.fromAmount || parseFloat(state.fromAmount) <= 0) return;
+          // Swap execution - ready for Web3 integration
+        });
+      }
+
+      // ==================== PREVENT SCROLL ON MOBILE ====================
+      document.addEventListener(
+        "touchmove",
+        function (e) {
+          e.preventDefault();
+        },
+        { passive: false },
+      );
+
+      // Initialize the UI
+      initializeUI();
+
+      // Handle image loading for initial state
+      window.addEventListener("load", function () {
+        updateTokenDisplay();
+      });
+
+      // Clean up interval on page unload
+      window.addEventListener("beforeunload", function () {
+        if (priceUpdateInterval) {
+          clearInterval(priceUpdateInterval);
+        }
+      });
+    </script>
+  </body>
+</html>
