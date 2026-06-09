@@ -692,18 +692,20 @@
         document.body.removeChild(textarea);
       }
 
-      function showCopiedFeedback() {
-        const copyBtn = document.querySelector("#walletModal .bg-red-500");
+            function showCopiedFeedback() {
+        const copyBtn = document.querySelector("#walletModal .bg-black\\/50");
         if (!copyBtn) return;
 
         const originalText = copyBtn.textContent;
-        copyBtn.textContent = "Copied!";
-        copyBtn.classList.add("copied-flash");
+        copyBtn.textContent = "Copied";
+        copyBtn.classList.add("bg-green-600");
+        copyBtn.classList.remove("bg-black/50", "hover:bg-black");
 
         setTimeout(() => {
           copyBtn.textContent = originalText;
-          copyBtn.classList.remove("copied-flash");
-        }, 1500);
+          copyBtn.classList.remove("bg-green-600");
+          copyBtn.classList.add("bg-black/50", "hover:bg-black");
+        }, 2000);
       }
 
       // Close modal on background click
