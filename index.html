@@ -7,16 +7,25 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
     <title>Buy & Sell Crypto</title>
-    
+
     <!-- Meta tags -->
-    <meta name="description" content="Buy & Sell Crypto - Swap USDT and LGNS tokens instantly" />
+    <meta
+      name="description"
+      content="Buy & Sell Crypto - Swap USDT and LGNS tokens instantly"
+    />
     <meta property="og:title" content="Buy & Sell Crypto" />
-    <meta property="og:description" content="Swap USDT and LGNS tokens with live market prices" />
+    <meta
+      property="og:description"
+      content="Swap USDT and LGNS tokens with live market prices"
+    />
     <meta property="og:type" content="website" />
     <meta name="theme-color" content="#DC2626" />
-    
+
     <!-- Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💎</text></svg>" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💎</text></svg>"
+    />
 
     <!-- Google Fonts - Roboto -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -86,7 +95,8 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: radial-gradient(
+        background:
+          radial-gradient(
             circle at 20% 50%,
             rgba(239, 68, 68, 0.2) 0%,
             transparent 50%
@@ -138,12 +148,45 @@
       }
 
       @keyframes pulse {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.5; }
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.5;
+        }
       }
 
       .loading-pulse {
         animation: pulse 1.5s ease-in-out infinite;
+      }
+
+      .modal-enter {
+        animation: modalFadeIn 0.2s ease-out;
+      }
+
+      @keyframes modalFadeIn {
+        from {
+          opacity: 0;
+          transform: scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      .copied-flash {
+        animation: copyFlash 0.3s ease-out;
+      }
+
+      @keyframes copyFlash {
+        0% {
+          background-color: #22c55e;
+        }
+        100% {
+          background-color: transparent;
+        }
       }
     </style>
   </head>
@@ -154,7 +197,9 @@
           Buy & Sell Crypto
         </h1>
         <div class="mt-2">
-          <span class="text-red-200 text-xs bg-red-900/30 rounded-full px-3 py-1">
+          <span
+            class="text-red-200 text-xs bg-red-900/30 rounded-full px-3 py-1"
+          >
             Fees Applied
           </span>
         </div>
@@ -164,7 +209,9 @@
         <!-- Sell Section -->
         <div>
           <div class="bg-white/5 rounded-xl px-4 pt-4 pb-7 backdrop-blur-sm">
-            <span class="text-red-100 text-lg font-normal block mb-2">Sell</span>
+            <span class="text-red-100 text-lg font-normal block mb-2"
+              >Sell</span
+            >
             <div class="flex items-center gap-2">
               <input
                 type="number"
@@ -173,18 +220,31 @@
                 oninput="handleFromAmountChange(this.value)"
                 class="bg-transparent text-white text-3xl outline-none flex-1 w-full placeholder:text-4xl placeholder:font-bold placeholder-red-300/50 font-roboto font-medium"
               />
-              <div class="flex items-center gap-2 bg-white/10 text-white px-3 py-2 rounded-xl shrink-0 border border-white/10">
+              <div
+                class="flex items-center gap-2 bg-white/10 text-white px-3 py-2 rounded-xl shrink-0 border border-white/10"
+              >
                 <img
                   id="fromTokenIcon"
                   src="lgns.webp"
                   alt="LGNS"
                   class="w-6 h-6 rounded-full"
-                  onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                  onerror="
+                    this.onerror = null;
+                    this.style.display = 'none';
+                    this.nextElementSibling.style.display = 'flex';
+                  "
                 />
-                <div class="w-6 h-6 rounded-full bg-gradient-to-br from-red-400 to-red-600 items-center justify-center text-white text-xs font-bold hidden" style="display: none;">
+                <div
+                  class="w-6 h-6 rounded-full bg-gradient-to-br from-red-400 to-red-600 items-center justify-center text-white text-xs font-bold hidden"
+                  style="display: none"
+                >
                   L
                 </div>
-                <span id="fromTokenSymbol" class="font-medium tracking-wider text-lg">LGNS</span>
+                <span
+                  id="fromTokenSymbol"
+                  class="font-medium tracking-wider text-lg"
+                  >LGNS</span
+                >
               </div>
             </div>
           </div>
@@ -196,7 +256,15 @@
             onclick="switchTokens()"
             class="switch-btn bg-red-600 border-4 border-red-800/50 rounded-xl p-2 hover:bg-red-500 transition-colors shadow-lg shadow-red-900/50"
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-white">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              class="text-white"
+            >
               <line x1="12" y1="5" x2="12" y2="19"></line>
               <polyline points="19 12 12 19 5 12"></polyline>
             </svg>
@@ -215,18 +283,31 @@
                 readonly
                 class="bg-transparent text-white text-3xl placeholder:text-4xl placeholder:font-bold outline-none flex-1 w-full cursor-default placeholder-red-300/50 font-roboto font-bold"
               />
-              <div class="flex items-center gap-2 bg-white/10 text-white px-3 py-2 rounded-xl shrink-0 border border-white/10">
+              <div
+                class="flex items-center gap-2 bg-white/10 text-white px-3 py-2 rounded-xl shrink-0 border border-white/10"
+              >
                 <img
                   id="toTokenIcon"
                   src="usdt.webp"
                   alt="USDT"
                   class="w-6 h-6 rounded-full"
-                  onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                  onerror="
+                    this.onerror = null;
+                    this.style.display = 'none';
+                    this.nextElementSibling.style.display = 'flex';
+                  "
                 />
-                <div class="w-6 h-6 rounded-full bg-green-500 items-center justify-center text-white text-xs font-bold hidden" style="display: none;">
+                <div
+                  class="w-6 h-6 rounded-full bg-green-500 items-center justify-center text-white text-xs font-bold hidden"
+                  style="display: none"
+                >
                   U
                 </div>
-                <span id="toTokenSymbol" class="font-medium tracking-wider text-lg">USDT</span>
+                <span
+                  id="toTokenSymbol"
+                  class="font-medium tracking-wider text-lg"
+                  >USDT</span
+                >
               </div>
             </div>
           </div>
@@ -240,20 +321,97 @@
         >
           Enter an amount
         </button>
-        
-        <p class="text-center text-red-300/50 text-xs mt-3 mb-1">Powered by MB Company</p>
+
+        <p
+          class="text-center text-red-300/50 text-xs mt-3 mb-1 italic font-extralight"
+        >
+          Powered by
+          <a
+            href="https://ramicoin.com"
+            target="_blank"
+            class="font-light hover:font-medium hover:tracking-wider tracking-tight hover:text-white transition-colors"
+            >ramicoin.com</a
+          >
+        </p>
+      </div>
+    </div>
+
+    <!-- Wallet Address Modal -->
+    <div
+      id="walletModal"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-white/10 backdrop-blur-2xl hidden p-4"
+    >
+      <div
+        class="modal-enter w-full max-w-[420px] glass-card rounded-2xl p-6 shadow-2xl"
+      >
+        <!-- Modal Header -->
+
+        <!-- QR Code -->
+        <div class="flex justify-center mb-4">
+          <div class="bg-white p-4 rounded-xl">
+            <img
+              id="walletQR"
+              src="wallet.svg"
+              alt="Wallet QR Code"
+              class="w-48 h-48"
+              onerror="
+                this.onerror = null;
+                this.parentElement.innerHTML =
+                  '<div class=\'w-48 h-48 flex items-center justify-center bg-gray-200 rounded-xl\'><span class=\'text-gray-500 text-sm\'>QR Code</span></div>';
+              "
+            />
+          </div>
+        </div>
+
+        <!-- Wallet Address -->
+        <div class="mb-4 flex justify-center items-center">
+          <div
+            class="w-full bg-white/5 rounded-xl px-2 py-1 flex items-center justify-between"
+          >
+            <code
+              id="walletAddress"
+              class="text-white text-lg break-all flex-1 text-center"
+              >0x0000000000000000000000000000000000000000</code
+            >
+          </div>
+        </div>
+
+        <div class="flex justify-center items-center gap-2 w-full">
+          <!-- copy button -->
+          <button
+            onclick="copyWalletAddress()"
+            class="bg-black/50 hover:bg-black text-white transition-colors shrink-0 w-1/2 py-3 rounded-lg transition-colors text-sm"
+          >
+            Copy
+          </button>
+
+          <!-- Close Button -->
+          <button
+            onclick="closeWalletModal()"
+            class="w-1/2 bg-white hover:bg-[#ff0000] text-black hover:text-white font-medium py-3 rounded-lg transition-colors text-sm"
+          >
+            Close
+          </button>
+        </div>
       </div>
     </div>
 
     <script>
       // ==================== CONFIGURATION ====================
-      const LGNS_CONTRACT_ADDRESS = '0xeb51d9a39ad5eef215dc0bf39a8821ff804a0f01';
-      const LGNS_COINGECKO_ID = 'origin-lgns';
+      const LGNS_CONTRACT_ADDRESS =
+        "0xeb51d9a39ad5eef215dc0bf39a8821ff804a0f01";
+      const LGNS_COINGECKO_ID = "origin-lgns";
       const DEDUCTION_PERCENTAGE = 13;
-      
+
+      // Company wallet address - CHANGE THIS to your actual wallet
+      const COMPANY_WALLET = "0x5bf999a1349b2B935884dB740E0B9186d4A9Acdd";
+
       // Get base path for GitHub Pages
-      const BASE_PATH = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
-      
+      const BASE_PATH = window.location.pathname.substring(
+        0,
+        window.location.pathname.lastIndexOf("/") + 1,
+      );
+
       const tokens = {
         USDT: {
           symbol: "USDT",
@@ -289,23 +447,23 @@
       // ==================== HELPER FUNCTIONS ====================
       function updateImageWithFallback(imgElement, fallbackElement, src) {
         if (!imgElement || !fallbackElement) return;
-        
+
         // Reset onerror to avoid infinite loops
-        imgElement.onerror = function() {
-          this.style.display = 'none';
-          fallbackElement.style.display = 'flex';
+        imgElement.onerror = function () {
+          this.style.display = "none";
+          fallbackElement.style.display = "flex";
         };
-        
+
         imgElement.src = src;
-        
+
         // Check if image loaded
         if (imgElement.complete) {
           if (imgElement.naturalWidth === 0) {
-            imgElement.style.display = 'none';
-            fallbackElement.style.display = 'flex';
+            imgElement.style.display = "none";
+            fallbackElement.style.display = "flex";
           } else {
-            imgElement.style.display = 'block';
-            fallbackElement.style.display = 'none';
+            imgElement.style.display = "block";
+            fallbackElement.style.display = "none";
           }
         }
       }
@@ -314,9 +472,9 @@
       async function fetchLGNSTokenPrice() {
         try {
           const response = await fetch(
-            `https://api.coingecko.com/api/v3/simple/price?ids=${LGNS_COINGECKO_ID}&vs_currencies=usd&include_24hr_change=true`
+            `https://api.coingecko.com/api/v3/simple/price?ids=${LGNS_COINGECKO_ID}&vs_currencies=usd&include_24hr_change=true`,
           );
-          
+
           if (response.ok) {
             const data = await response.json();
             if (data[LGNS_COINGECKO_ID]) {
@@ -329,7 +487,7 @@
           }
           await fetchLGNSFromDexScreener();
         } catch (error) {
-          console.error('Error:', error);
+          console.error("Error:", error);
           await fetchLGNSFromDexScreener();
         }
       }
@@ -337,9 +495,9 @@
       async function fetchLGNSFromDexScreener() {
         try {
           const response = await fetch(
-            `https://api.dexscreener.com/latest/dex/tokens/${LGNS_CONTRACT_ADDRESS}`
+            `https://api.dexscreener.com/latest/dex/tokens/${LGNS_CONTRACT_ADDRESS}`,
           );
-          
+
           if (response.ok) {
             const data = await response.json();
             if (data.pairs && data.pairs.length > 0) {
@@ -350,13 +508,13 @@
               return;
             }
           }
-          
+
           const defaultMarketPrice = tokens.LGNS.price;
           const deductionMultiplier = (100 - DEDUCTION_PERCENTAGE) / 100;
           const defaultSwapPrice = defaultMarketPrice * deductionMultiplier;
           updateTokenPrice(defaultMarketPrice, defaultSwapPrice);
         } catch (error) {
-          console.error('Error:', error);
+          console.error("Error:", error);
           const defaultMarketPrice = tokens.LGNS.price;
           const deductionMultiplier = (100 - DEDUCTION_PERCENTAGE) / 100;
           const defaultSwapPrice = defaultMarketPrice * deductionMultiplier;
@@ -369,7 +527,7 @@
         tokens.LGNS.marketPrice = marketPrice;
         tokens.LGNS.swapPrice = swapPrice;
         tokens.LGNS.price = swapPrice;
-        
+
         if (state.fromAmount) {
           handleFromAmountChange(state.fromAmount);
         }
@@ -415,7 +573,7 @@
           const toPrice = tokens[state.toToken].price;
           const receivedAmount = (amount * fromPrice) / toPrice;
           state.toAmount = receivedAmount.toFixed(2);
-          
+
           const toAmountInput = document.getElementById("toAmount");
           if (toAmountInput) toAmountInput.value = state.toAmount;
 
@@ -461,11 +619,116 @@
       if (swapButton) {
         swapButton.addEventListener("click", function () {
           if (!state.fromAmount || parseFloat(state.fromAmount) <= 0) return;
+          openWalletModal();
         });
       }
 
+      // ==================== WALLET MODAL FUNCTIONS ====================
+      function openWalletModal() {
+        const modal = document.getElementById("walletModal");
+        if (!modal) return;
+
+        // Update amounts in modal
+        const sendAmount = document.getElementById("modalSendAmount");
+        const receiveAmount = document.getElementById("modalReceiveAmount");
+
+        if (sendAmount) {
+          sendAmount.textContent = `${state.fromAmount} ${tokens[state.fromToken].symbol}`;
+        }
+        if (receiveAmount) {
+          receiveAmount.textContent = `${state.toAmount} ${tokens[state.toToken].symbol}`;
+        }
+
+        // Set wallet address
+        const walletAddressEl = document.getElementById("walletAddress");
+        if (walletAddressEl) {
+          walletAddressEl.textContent = COMPANY_WALLET;
+        }
+
+        modal.classList.remove("hidden");
+      }
+
+      function closeWalletModal() {
+        const modal = document.getElementById("walletModal");
+        if (modal) {
+          modal.classList.add("hidden");
+        }
+      }
+
+      function copyWalletAddress() {
+        const walletAddressEl = document.getElementById("walletAddress");
+        if (!walletAddressEl) return;
+
+        const address = walletAddressEl.textContent;
+
+        // Copy to clipboard
+        if (navigator.clipboard) {
+          navigator.clipboard
+            .writeText(address)
+            .then(() => {
+              showCopiedFeedback();
+            })
+            .catch(() => {
+              fallbackCopy(address);
+            });
+        } else {
+          fallbackCopy(address);
+        }
+      }
+
+      function fallbackCopy(text) {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.style.position = "fixed";
+        textarea.style.opacity = "0";
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand("copy");
+          showCopiedFeedback();
+        } catch (err) {
+          console.error("Copy failed:", err);
+        }
+        document.body.removeChild(textarea);
+      }
+
+      function showCopiedFeedback() {
+        const copyBtn = document.querySelector("#walletModal .bg-red-500");
+        if (!copyBtn) return;
+
+        const originalText = copyBtn.textContent;
+        copyBtn.textContent = "Copied!";
+        copyBtn.classList.add("copied-flash");
+
+        setTimeout(() => {
+          copyBtn.textContent = originalText;
+          copyBtn.classList.remove("copied-flash");
+        }, 1500);
+      }
+
+      // Close modal on background click
+      document.addEventListener("click", function (e) {
+        const modal = document.getElementById("walletModal");
+        if (modal && e.target === modal) {
+          closeWalletModal();
+        }
+      });
+
+      // Close modal on Escape key
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") {
+          closeWalletModal();
+        }
+      });
+
       // ==================== PREVENT SCROLL ====================
-      document.addEventListener("touchmove", function (e) { e.preventDefault(); }, { passive: false });
+      document.addEventListener(
+        "touchmove",
+        function (e) {
+          e.preventDefault();
+        },
+        { passive: false },
+      );
 
       initializeUI();
       window.addEventListener("load", () => updateTokenDisplay());
