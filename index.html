@@ -216,20 +216,15 @@
                 class="flex items-center gap-2 bg-white/10 text-white px-3 py-2 rounded-xl shrink-0 border border-white/10"
               >
                 <img
-                  id="fromTokenIcon"
-                  src="./lgns.webp"
-                  alt="LGNS"
-                  class="w-6 h-6 rounded-full"
-                  onerror="
-                    this.style.display = 'none';
-                    this.nextElementSibling.style.display = 'flex';
-                  "
-                />
-                <div
-                  class="w-6 h-6 rounded-full bg-gradient-to-br from-red-400 to-red-600 items-center justify-center text-white text-xs font-bold hidden"
-                >
-                  L
-                </div>
+  id="fromTokenIcon"
+  src="lgns.webp"
+  alt="LGNS"
+  class="w-6 h-6 rounded-full"
+  onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='flex';"
+/>
+<div class="w-6 h-6 rounded-full bg-gradient-to-br from-red-400 to-red-600 items-center justify-center text-white text-xs font-bold hidden" style="display: none;">
+  L
+</div>
                 <span
                   id="fromTokenSymbol"
                   class="font-medium tracking-wider text-lg"
