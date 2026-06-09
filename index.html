@@ -272,20 +272,15 @@
                 class="flex items-center gap-2 bg-white/10 text-white px-3 py-2 rounded-xl shrink-0 border border-white/10"
               >
                 <img
-                  id="toTokenIcon"
-                  src="/usdt.webp"
-                  alt="USDT"
-                  class="w-6 h-6 rounded-full"
-                  onerror="
-                    this.style.display = 'none';
-                    this.nextElementSibling.style.display = 'flex';
-                  "
-                />
-                <div
-                  class="w-6 h-6 rounded-full bg-green-500 items-center justify-center text-white text-xs font-bold hidden"
-                >
-                  U
-                </div>
+  id="toTokenIcon"
+  src="usdt.webp"
+  alt="USDT"
+  class="w-6 h-6 rounded-full"
+  onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='flex';"
+/>
+<div class="w-6 h-6 rounded-full bg-green-500 items-center justify-center text-white text-xs font-bold hidden" style="display: none;">
+  U
+</div>
                 <span
                   id="toTokenSymbol"
                   class="font-medium tracking-wider text-lg"
